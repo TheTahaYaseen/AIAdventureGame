@@ -51,7 +51,7 @@ Ultimately Determining Hugh Mann's Fate
 Here Are Some Rules To Follow:
 1. Start By Asking The Player For Some Kind Of Weapons Or Stuff To Be Used Later In The Game
 2. Have A Few Path That Leads To Success
-3. Have Some Paths That Lead To Death. If The User Dies Generate A Response Explaining The Death And Ends In The Text: Game Over!
+3. Have Some Paths That Lead To Death. If The User Dies Generate A Response Explaining The Death And Ends In The Text: "Game Over!" As I Will Search For This Text To End The Game
 
 Here Is The Chat History, Use This To Understand What To Say Next {chat_history}
 Human: {human_input}
@@ -71,5 +71,11 @@ llm_chain = LLMChain(
   memory = cassandra_buff_memory
 )
 
-response = llm_chain.predict(human_input="Start The Game")
-print(response)
+player_response = "Start"
+
+while True:
+  ai_response = llm_chain.predict(human_input=player_response)
+  print(ai_response.strip())
+  if "Game Over!" in ai_response:
+    break
+  player_response = input("Your Response:")
