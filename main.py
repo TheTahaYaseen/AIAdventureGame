@@ -9,10 +9,10 @@ from langchain import LLMChain, PromptTemplate
 import json
 
 cloud_config= {
-  'secure_connect_bundle': 'secure-connect-aiadventuregamedatabase.zip'
+  'secure_connect_bundle': '../secure-connect-aiadventuregamedatabase.zip'
 }
 
-with open("AIAdventureGameDatabase-token.json") as f:
+with open("../AIAdventureGameDatabase-token.json") as f:
     secrets = json.load(f)
 
 CLIENT_ID = secrets["clientId"]
@@ -70,3 +70,6 @@ llm_chain = LLMChain(
   prompt = prompt,
   memory = cassandra_buff_memory
 )
+
+response = llm_chain.predict(human_input="Start The Game")
+print(response)
