@@ -1,6 +1,6 @@
 from cassandra.cluster import Cluster
 from cassandra.auth import PlainTextAuthProvider
-from langchain.memory import CassandraChatMessageHistory
+from langchain.memory import CassandraChatMessageHistory, ConversationBufferMemory
 import json
 
 cloud_config= {
@@ -27,3 +27,8 @@ message_history = CassandraChatMessageHistory(
 )
 
 message_history.clear()
+
+cassandra_buff_memory = ConversationBufferMemory(
+  memory_key = "chat_history",
+  chat_memory = message_history
+)
