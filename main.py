@@ -1,6 +1,11 @@
 from cassandra.cluster import Cluster
 from cassandra.auth import PlainTextAuthProvider
+
 from langchain.memory import CassandraChatMessageHistory, ConversationBufferMemory
+
+from langchain.llms import OpenAI
+from langchain import LLMChain, PromptTemplate
+
 import json
 
 cloud_config= {
@@ -31,4 +36,18 @@ message_history.clear()
 cassandra_buff_memory = ConversationBufferMemory(
   memory_key = "chat_history",
   chat_memory = message_history
+)
+
+template = "{chat_history}"
+
+prompt = PromptTemplate(
+  input_variables = ["chat_history", "human_input"],
+  template = template
+)
+
+llm = OpenAI(openai_api_key = OPENAI_API_KEY)
+llm_chain = LLMChain(
+  llm = llm,
+  prompt = prompt,
+  memory = cassandra_buff_memory
 )
